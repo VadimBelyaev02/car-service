@@ -2,6 +2,7 @@ package com.andersen.carservice.storage.impl;
 
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.RepairerStorage;
+import com.andersen.carservice.util.UuidGenerator;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
@@ -16,16 +17,19 @@ public class RepairerStorageImpl implements RepairerStorage {
 
     @Override
     public Repairer save(Repairer repairer) {
-      return null;
+        if (Objects.isNull(repairer.getId())) {
+            repairer.setId(UuidGenerator.generate());
+        }
+        return repairers.put(repairer.getId(), repairer);
     }
 
     @Override
     public void deleteById(UUID id) {
-
+        repairers.remove(id);
     }
 
     @Override
     public Optional<Repairer> findById(UUID id) {
-        return Optional.empty();
+        return Optional.ofNullable(repairers.get(id));
     }
 }
