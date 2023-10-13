@@ -1,16 +1,18 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.Command;
+import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.storage.RepairerStorage;
 import lombok.AllArgsConstructor;
 
 import java.io.OutputStream;
 import java.util.List;
 
-@AllArgsConstructor
-public class HireRepairer implements Command {
+public class HireRepairer extends NamedCommand {
 
-    private final RepairerStorage repairerStorage;
+    public HireRepairer(String name) {
+        super(name);
+    }
 
     @Override
     public void execute(List<String> arguments) {

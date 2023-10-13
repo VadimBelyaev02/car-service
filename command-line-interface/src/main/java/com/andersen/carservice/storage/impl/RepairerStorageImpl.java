@@ -17,7 +17,7 @@ public class RepairerStorageImpl implements RepairerStorage {
 
     @Override
     public Repairer save(Repairer repairer) {
-        if (Objects.isNull(repairer.getId())) {
+        if (Objects.isNull(repairer.getId())) { // check not null repairer
             repairer.setId(UuidGenerator.generate());
         }
         return repairers.put(repairer.getId(), repairer);
