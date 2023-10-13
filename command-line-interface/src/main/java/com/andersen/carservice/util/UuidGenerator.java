@@ -19,6 +19,6 @@ public class UuidGenerator {
         randomBytes[8] &= 0x3f;
         randomBytes[8] |= (byte) 0x80;
 
-        return new UUID(ByteBuffer.wrap(randomBytes).getLong(), java.nio.ByteBuffer.wrap(randomBytes, 8, 8).getLong());
+        return new UUID(ByteBuffer.wrap(randomBytes).getLong(), ByteBuffer.wrap(randomBytes, 8, 8).getLong());
     }
 }
