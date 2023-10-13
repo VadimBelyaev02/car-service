@@ -2,22 +2,21 @@ package com.andersen.carservice.storage.impl;
 
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.RepairerStorage;
+import lombok.AllArgsConstructor;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@AllArgsConstructor
 public class RepairerStorageImpl implements RepairerStorage {
 
-    private final Map<Repairer, UUID> repairers;
-
-    public RepairerStorageImpl(Map<Repairer, UUID> repairers) {
-        this.repairers = repairers;
-    }
+    private final Map<UUID, Repairer> repairers;
 
     @Override
     public Repairer save(Repairer repairer) {
-        return null;
+      return null;
     }
 
     @Override
