@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 public class AssignRepairers extends NamedCommand {
@@ -21,9 +22,11 @@ public class AssignRepairers extends NamedCommand {
         }
     }
 
-    private void runCommand(List<String> arguments) {
+    @Override
+    protected void runCommand(List<String> arguments) {
 
     }
+
     @Override
     public void printHelp(OutputStream output) {
 
