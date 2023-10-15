@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Command {
 
-    void execute(List<String> arguments);
+    void execute(List<String> arguments, PrintWriter writer);
 
-    void printHelp(OutputStream output);
+    void printHelp(PrintWriter writer);
 }
