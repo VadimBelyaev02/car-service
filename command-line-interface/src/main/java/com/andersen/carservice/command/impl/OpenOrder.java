@@ -1,22 +1,28 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
+import com.andersen.carservice.storage.OrderStorage;
 
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
-public class OpenOrder extends NamedCommand {
-    public OpenOrder(String name) {
+public class OpenOrder extends NamedCommandWithFirstArgumentUuid {
+
+    private final OrderStorage orderStorage;
+
+    public OpenOrder(String name, OrderStorage orderStorage) {
         super(name);
+        this.orderStorage = orderStorage;
     }
 
     @Override
-    public void execute(List<String> arguments) {
+    protected void runCommand(List<String> arguments, PrintWriter writer) {
 
     }
 
     @Override
-    public void printHelp(OutputStream output) {
+    public void printHelp(PrintWriter writer) {
 
     }
 }

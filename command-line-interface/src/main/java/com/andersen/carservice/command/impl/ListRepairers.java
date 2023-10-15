@@ -1,22 +1,28 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.storage.RepairerStorage;
 
-import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 
 public class ListRepairers extends NamedCommand {
-    public ListRepairers(String name) {
+
+    private final RepairerStorage repairerStorage;
+
+    public ListRepairers(String name, RepairerStorage repairerStorage) {
         super(name);
+        this.repairerStorage = repairerStorage;
+    }
+    @Override
+    protected void runCommand(List<String> arguments, PrintWriter writer) {
+
     }
 
     @Override
-    public void execute(List<String> arguments) {
+    public void printHelp(PrintWriter writer) {
 
     }
 
-    @Override
-    public void printHelp(OutputStream output) {
-
-    }
 }
