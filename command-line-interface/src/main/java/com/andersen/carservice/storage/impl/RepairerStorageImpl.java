@@ -2,23 +2,29 @@ package com.andersen.carservice.storage.impl;
 
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.UuidGenerator;
-import lombok.AllArgsConstructor;
+import com.andersen.carservice.util.UuidHelper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RepairerStorageImpl implements RepairerStorage {
 
-    private final Map<UUID, Repairer> repairers;
+    private final Map<UUID, Repairer> repairers = new HashMap<>();
+    private static RepairerStorageImpl instance;
+
+    public RepairerStorageImpl getInstance() {
+        if (Objects.isNull(instance)) {
+            instance = new RepairerStorageImpl();
+        }
+        return instance;
+    }
 
     @Override
     public Repairer save(Repairer repairer) {
         if (Objects.isNull(repairer.getId())) { // check not null repairer
-            repairer.setId(UuidGenerator.generate());
+            repairer.setId(UuidHelper.generate());
         }
         return repairers.put(repairer.getId(), repairer);
     }
@@ -32,4 +38,6 @@ public class RepairerStorageImpl implements RepairerStorage {
     public Optional<Repairer> findById(UUID id) {
         return Optional.ofNullable(repairers.get(id));
     }
+
+
 }

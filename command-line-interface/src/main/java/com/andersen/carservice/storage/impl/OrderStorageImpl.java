@@ -2,23 +2,29 @@ package com.andersen.carservice.storage.impl;
 
 import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.util.UuidGenerator;
-import lombok.AllArgsConstructor;
+import com.andersen.carservice.util.UuidHelper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderStorageImpl implements OrderStorage {
 
-    private final Map<UUID, Order> orders;
+    private final Map<UUID, Order> orders = new HashMap<>();
+    private static OrderStorageImpl instance;
+
+    public static OrderStorageImpl getInstance() {
+        if (Objects.isNull(instance)) {
+            instance = new OrderStorageImpl();
+        }
+        return instance;
+    }
 
     @Override
     public Order save(Order order) {
         if (Objects.isNull(order.getId())) {
-            order.setId(UuidGenerator.generate());
+            order.setId(UuidHelper.generate());
         }
         return orders.put(order.getId(), order);
     }
