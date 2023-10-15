@@ -44,7 +44,7 @@ public class FireRepairer extends NamedCommandWithFirstArgumentUuid {
     public void printHelp(PrintWriter writer) {
         writer.println("The command fires one repairer. ");
         writer.println("The first and the only one argument is the repairer's id. ");
-        writer.println("Format: fire-repairer <order-id>");
+        writer.println("Format: fire-repairer <repairer-id>");
         writer.println("Example: fire-repairer c7365c9e-3cf5-490f-9c85-38e936f758e6");
 
     }
