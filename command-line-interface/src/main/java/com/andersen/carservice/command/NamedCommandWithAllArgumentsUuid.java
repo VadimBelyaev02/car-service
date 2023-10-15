@@ -5,9 +5,9 @@ import com.andersen.carservice.util.UuidHelper;
 import java.io.PrintWriter;
 import java.util.List;
 
-public abstract class AllArgumentsUuid extends NamedCommand {
+public abstract class NamedCommandWithAllArgumentsUuid extends NamedCommand {
 
-    public AllArgumentsUuid(String name) {
+    public NamedCommandWithAllArgumentsUuid(String name) {
         super(name);
     }
 

@@ -5,9 +5,9 @@ import com.andersen.carservice.util.UuidHelper;
 import java.io.PrintWriter;
 import java.util.List;
 
-public abstract class FirstArgumentUuid extends NamedCommand {
+public abstract class NamedCommandWithFirstArgumentUuid extends NamedCommand { // the better name is 'NamedCommandWithFirstArgumentUuid
 
-    public FirstArgumentUuid(String name) {
+    public NamedCommandWithFirstArgumentUuid(String name) {
         super(name);
     }
 
