@@ -1,14 +1,12 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
-import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.util.constants.OrderConstants;
+import com.andersen.carservice.util.constants.OrderUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class CompleteOrder extends NamedCommandWithFirstArgumentUuid {
@@ -23,10 +21,9 @@ public class CompleteOrder extends NamedCommandWithFirstArgumentUuid {
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         UUID id = UUID.fromString(arguments.get(1));
-        Optional<Order> orderOptional = orderStorage.findById(id);
-        orderOptional.ifPresentOrElse(
+        orderStorage.findById(id).ifPresentOrElse(
                 order -> order.setStatus(OrderStatus.COMPLETED),
-                () -> writer.write(OrderConstants.notFoundById(id))
+                () -> writer.write(OrderUtil.notFoundById(id))
         );
     }
 
@@ -34,7 +31,7 @@ public class CompleteOrder extends NamedCommandWithFirstArgumentUuid {
     public void printHelp(PrintWriter writer) {
         writer.println("The command completes one order. ");
         writer.println("The first and the only one argument is the order's id. ");
-        writer.println("Format: complete-order <order-id>");
-        writer.println("Example: complete-order c7365c9e-3cf5-490f-9c85-38e936f758e6");
+        writer.println("Format: " + name + " <order-id>");
+        writer.println("Example: " + name + " c7365c9e-3cf5-490f-9c85-38e936f758e6");
     }
 }

@@ -44,7 +44,7 @@ public class OpenOrder extends NamedCommandWithFirstArgumentUuid {
     public void printHelp(PrintWriter writer) {
         writer.println("The command opens one order. ");
         writer.println("The first argument is a price and that's all. ");
-        writer.println("Format: open-order <price> ");
-        writer.println("Example: open-order 12.00 ");
+        writer.println("Format: " + name + " <price> ");
+        writer.println("Example: " + name + " 12.00 ");
     }
 }

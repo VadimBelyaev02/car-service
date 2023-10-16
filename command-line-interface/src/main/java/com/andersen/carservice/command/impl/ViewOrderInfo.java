@@ -3,8 +3,8 @@ package com.andersen.carservice.command.impl;
 import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.constants.OrderConstants;
-import com.andersen.carservice.util.constants.RepairerConstants;
+import com.andersen.carservice.util.constants.OrderUtil;
+import com.andersen.carservice.util.constants.RepairerUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -39,17 +39,20 @@ public class ViewOrderInfo extends NamedCommandWithFirstArgumentUuid {
                     order.getRepairersIds().forEach(repairerId -> {
                         repairerStorage.findById(repairerId).ifPresentOrElse(
                                 writer::println,
-                                () -> writer.println(RepairerConstants.notFoundById(repairerId))
+                                () -> writer.println(RepairerUtil.notFoundById(repairerId))
                         );
                     });
                 },
-                () -> writer.println(OrderConstants.notFoundById(id))
+                () -> writer.println(OrderUtil.notFoundById(id))
         );
     }
 
     @Override
     public void printHelp(PrintWriter writer) {
-
+        writer.println("The command shows detailed info about a particular order. ");
+        writer.println("The first argument is the order's id. ");
+        writer.println("Format: " + name + " <order-id>");
+        writer.println("Example: " + name + " c7365c9e-3cf5-490f-9c85-38e936f758e6");
     }
 
 }

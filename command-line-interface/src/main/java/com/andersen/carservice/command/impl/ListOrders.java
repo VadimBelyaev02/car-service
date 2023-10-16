@@ -37,6 +37,6 @@ public class ListOrders extends NamedCommand {
     @Override
     public void printHelp(PrintWriter writer) {
         writer.println("The command shows all orders. It doesn't have any arguments");
-        writer.println("Example: list-orders");
+        writer.println("Example: " + name);
     }
 }

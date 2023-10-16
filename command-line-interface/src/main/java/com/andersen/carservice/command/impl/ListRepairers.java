@@ -35,6 +35,6 @@ public class ListRepairers extends NamedCommand {
     @Override
     public void printHelp(PrintWriter writer) {
         writer.println("The command shows all repairers. It doesn't have any arguments");
-        writer.println("Example: list-repairers");
+        writer.println("Example: " + name);
     }
 }

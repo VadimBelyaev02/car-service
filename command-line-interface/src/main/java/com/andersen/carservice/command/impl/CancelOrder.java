@@ -1,12 +1,11 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
-import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.constants.OrderConstants;
-import com.andersen.carservice.util.constants.RepairerConstants;
+import com.andersen.carservice.util.constants.OrderUtil;
+import com.andersen.carservice.util.constants.RepairerUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -27,19 +26,18 @@ public class CancelOrder extends NamedCommandWithFirstArgumentUuid {
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         UUID orderId = UUID.fromString(arguments.get(1));
-        Optional<Order> orderOptional = orderStorage.findById(orderId);
-        orderOptional.ifPresentOrElse(
+        orderStorage.findById(orderId).ifPresentOrElse(
                 order -> {
                     order.getRepairersIds().forEach(repairerId -> {
                         Optional<Repairer> repairerOptional = repairerStorage.findById(repairerId);
                         repairerOptional.ifPresentOrElse(
                                 repairer -> repairer.deleteOrder(orderId),
-                                () -> writer.println(RepairerConstants.notFoundById(repairerId))
+                                () -> writer.println(RepairerUtil.notFoundById(repairerId))
                         );
                     });
                     orderStorage.deleteById(orderId);
                 },
-                () -> writer.write(OrderConstants.notFoundById(orderId))
+                () -> writer.write(OrderUtil.notFoundById(orderId))
         );
     }
 
@@ -48,7 +46,7 @@ public class CancelOrder extends NamedCommandWithFirstArgumentUuid {
     public void printHelp(PrintWriter writer) {
         writer.println("The command cancels one repairer. ");
         writer.println("The first and the only one argument is the order's id. ");
-        writer.println("Format: cancel-order <order-id>");
-        writer.println("Example: cancel-order c7365c9e-3cf5-490f-9c85-38e936f758e6");
+        writer.println("Format: " + name + " <order-id>");
+        writer.println("Example: " + name + " c7365c9e-3cf5-490f-9c85-38e936f758e6");
     }
 }

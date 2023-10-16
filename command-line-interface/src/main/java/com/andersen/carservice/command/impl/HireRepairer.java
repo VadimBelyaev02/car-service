@@ -42,8 +42,8 @@ public class HireRepairer extends NamedCommand {
     public void printHelp(PrintWriter writer) {
         writer.println("The command hires one repairer. ");
         writer.println("The first argument is a name, the second is a status, the third is an email. ");
-        writer.println("Format: hire-repairer <name> <status> <email>");
-        writer.println("Example: hire-repairer Vadim active vadimbelav002@gmail.com");
+        writer.println("Format: " + name + " <name> <status> <email>");
+        writer.println("Example: " + name + " Vadim active vadimbelav002@gmail.com");
         writer.println("Note: status can be written in any case");
     }
 }

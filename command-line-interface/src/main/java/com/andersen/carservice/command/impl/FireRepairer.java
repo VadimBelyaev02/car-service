@@ -1,14 +1,12 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
-import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.constants.RepairerConstants;
+import com.andersen.carservice.util.constants.RepairerUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public class FireRepairer extends NamedCommandWithFirstArgumentUuid {
@@ -25,18 +23,17 @@ public class FireRepairer extends NamedCommandWithFirstArgumentUuid {
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         UUID repairerId = UUID.fromString(arguments.get(1));
-        Optional<Repairer> repairerOptional = repairerStorage.findById(repairerId);
-        repairerOptional.ifPresentOrElse(
+        repairerStorage.findById(repairerId).ifPresentOrElse(
                 repairer -> {
                     repairer.getOrdersIds().forEach(orderId -> {
                         orderStorage.findById(orderId).ifPresentOrElse(
                                 order -> order.deleteRepairer(repairerId),
-                                () -> writer.println(RepairerConstants.notFoundById(repairerId))
+                                () -> writer.println(RepairerUtil.notFoundById(repairerId))
                         );
                     });
                     repairerStorage.deleteById(repairerId);
                 },
-                () -> writer.println(RepairerConstants.notFoundById(repairerId))
+                () -> writer.println(RepairerUtil.notFoundById(repairerId))
         );
     }
 
@@ -44,8 +41,8 @@ public class FireRepairer extends NamedCommandWithFirstArgumentUuid {
     public void printHelp(PrintWriter writer) {
         writer.println("The command fires one repairer. ");
         writer.println("The first and the only one argument is the repairer's id. ");
-        writer.println("Format: fire-repairer <repairer-id>");
-        writer.println("Example: fire-repairer c7365c9e-3cf5-490f-9c85-38e936f758e6");
+        writer.println("Format: " + name + " <repairer-id>");
+        writer.println("Example: " + name + " c7365c9e-3cf5-490f-9c85-38e936f758e6");
 
     }
 }
