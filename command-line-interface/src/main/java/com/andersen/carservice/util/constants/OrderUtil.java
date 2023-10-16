@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.util.UUID;
 
 @UtilityClass
-public class OrderConstants {
+public class OrderUtil {
 
     public static final String ORDER_NOT_FOUND_BY_ID = "Order with id = %s wasn't found";
 

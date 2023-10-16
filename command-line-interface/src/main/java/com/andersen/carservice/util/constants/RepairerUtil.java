@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.util.UUID;
 
 @UtilityClass
-public class RepairerConstants {
+public class RepairerUtil {
 
     public static final String REPAIRER_NOT_FOUND_BY_ID = "Repairer with id = %s wasn't found";
 
