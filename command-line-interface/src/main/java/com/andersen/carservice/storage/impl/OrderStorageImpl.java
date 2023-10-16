@@ -22,6 +22,11 @@ public class OrderStorageImpl implements OrderStorage {
     }
 
     @Override
+    public List<Order> findAll() {
+        return orders.values().stream().toList();
+    }
+
+    @Override
     public Order save(Order order) {
         if (Objects.isNull(order.getId())) {
             order.setId(UuidHelper.generate());
