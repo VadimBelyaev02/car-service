@@ -30,7 +30,10 @@ public class AssignRepairers extends NamedCommandWithAllArgumentsUuid {
                         .forEach(element -> {
                             UUID repairerId = UUID.fromString(element);
                             repairerStorage.findById(repairerId).ifPresentOrElse(
-                                    repairer -> order.addRepairer(repairer.getId()),
+                                    repairer -> {
+                                        order.addRepairer(repairerId);
+                                        repairer.addOrder(orderId);
+                                    },
                                     () -> writer.write(RepairerUtil.notFoundById(repairerId))
                             );
                         }),

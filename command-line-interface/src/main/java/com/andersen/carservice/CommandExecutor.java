@@ -1,11 +1,11 @@
 package com.andersen.carservice;
 
+import com.andersen.carservice.command.Command;
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.command.impl.*;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
 import com.andersen.carservice.util.ArgumentParser;
-import lombok.AllArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,15 +41,27 @@ public class CommandExecutor {
             try {
                 writer.print("> ");
                 writer.flush();
-                String command = reader.readLine();
+                String userInput = reader.readLine();
 
-                if (Objects.equals(command, "exit")) {
+                if (Objects.equals(userInput, "exit")) {
+                    writer.println("Bye!");
                     return;
                 }
-                List<String> arguments = ArgumentParser.parse(command);
-                commands.forEach(a -> a.execute(arguments, writer));
+                List<String> arguments = ArgumentParser.parse(userInput);
+                boolean isInvalid = true;
+                for (NamedCommand command : commands) {
+                    if (Objects.equals(command.getName(), arguments.get(0))) {
+                        isInvalid = false;
+                        command.execute(arguments, writer);
+                        break;
+                    }
+                }
+                if (isInvalid) {
+                    writer.println("Invalid command");
+                }
+                //commands.forEach(a -> a.execute(arguments, writer));
             } catch (IOException e) {
-                writer.write(e.getMessage());
+                writer.println(e.getMessage());
             }
         }
     }

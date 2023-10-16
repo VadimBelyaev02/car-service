@@ -29,14 +29,18 @@ public class ListOrders extends NamedCommand {
         List<Order> orders = orderStorage.findAll().stream()
                 .sorted(comparator)
                 .toList();
+
         for (int i = 0; i < orders.size(); i++) {
-            System.out.println((i + 1) + ") " + orders.get(i));
+            writer.println((i + 1) + ") " + orders.get(i));
+        }
+        if (orders.isEmpty()) {
+            writer.println("There are no orders. ");
         }
     }
 
     @Override
     public void printHelp(PrintWriter writer) {
-        writer.println("The command shows all orders. It doesn't have any arguments");
+        writer.println("The command shows all orders. It doesn't have any arguments. ");
         writer.println("Example: " + name);
     }
 }

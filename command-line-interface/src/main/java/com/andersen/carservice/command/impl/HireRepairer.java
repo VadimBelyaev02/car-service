@@ -44,6 +44,6 @@ public class HireRepairer extends NamedCommand {
         writer.println("The first argument is a name, the second is a status, the third is an email. ");
         writer.println("Format: " + name + " <name> <status> <email>");
         writer.println("Example: " + name + " Vadim active vadimbelav002@gmail.com");
-        writer.println("Note: status can be written in any case");
+        writer.println("Notes: status can be written in any case. Status can be 'Active' or 'Inactive'. ");
     }
 }

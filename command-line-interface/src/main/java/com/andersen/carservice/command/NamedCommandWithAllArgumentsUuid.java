@@ -14,10 +14,10 @@ public abstract class NamedCommandWithAllArgumentsUuid extends NamedCommand {
 
     @Override
     public void execute(List<String> arguments, PrintWriter writer) {
-        if (!arguments.isEmpty() && Objects.equals(arguments.get(0), name)) {
-            for (String argument : arguments) {
-                if (!UuidHelper.isParsable(argument)) {
-                    writer.println("Expected argument of type: UUID, got: " + argument);
+        if (arguments.size() > 1 && Objects.equals(arguments.get(0), name)) {
+            for (int i = 1; i < arguments.size(); i++) {
+                if (!UuidHelper.isParsable(arguments.get(i))) {
+                    writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
                     return;
                 }
             }

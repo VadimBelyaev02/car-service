@@ -1,11 +1,12 @@
 package com.andersen.carservice.command;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
+import lombok.Getter;
+
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public abstract class NamedCommand implements Command {
 
     protected String name;
@@ -26,4 +27,6 @@ public abstract class NamedCommand implements Command {
     }
 
     protected abstract void runCommand(List<String> arguments, PrintWriter writer);
+
+
 }
