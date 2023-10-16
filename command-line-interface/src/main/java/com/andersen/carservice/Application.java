@@ -10,13 +10,14 @@ import java.io.PrintWriter;
 
 public class Application {
 
-    private final CommandExecutor commandExecutor = new CommandExecutor(
+    private static final CommandExecutor commandExecutor = new CommandExecutor(
             new PrintWriter(System.out),
             new BufferedReader(new InputStreamReader(System.in)),
             OrderStorageImpl.getInstance(),
             RepairerStorageImpl.getInstance()
     );
     public static void main(String[] args) {
-
+        System.out.println("Car Service!");
+        commandExecutor.start();
     }
 }
