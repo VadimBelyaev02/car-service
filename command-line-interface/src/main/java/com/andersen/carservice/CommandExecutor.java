@@ -21,7 +21,6 @@ public class CommandExecutor {
     private final BufferedReader reader;
     private final OrderStorage orderStorage;
     private final RepairerStorage repairerStorage;
-    // Reader Writer
 
     private final List<NamedCommand> commands = Stream.of(
             new AssignRepairers("assign-repairers", orderStorage, repairerStorage),
@@ -32,7 +31,7 @@ public class CommandExecutor {
             new ListOrders("list-orders", orderStorage),
             new ListRepairers("list-repairers", repairerStorage),
             new OpenOrder("open-order", orderStorage),
-            new ViewOrderInfo("view-order-info", orderStorage)
+            new ViewOrderInfo("view-order-info", orderStorage, repairerStorage)
     ).toList();
 
     public void start() {

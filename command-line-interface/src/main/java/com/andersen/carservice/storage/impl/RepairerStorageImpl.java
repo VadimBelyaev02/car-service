@@ -14,7 +14,7 @@ public class RepairerStorageImpl implements RepairerStorage {
     private final Map<UUID, Repairer> repairers = new HashMap<>();
     private static RepairerStorageImpl instance;
 
-    public RepairerStorageImpl getInstance() {
+    public static RepairerStorageImpl getInstance() {
         if (Objects.isNull(instance)) {
             instance = new RepairerStorageImpl();
         }
