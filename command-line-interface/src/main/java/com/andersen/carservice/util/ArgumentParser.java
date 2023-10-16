@@ -16,13 +16,12 @@ public class ArgumentParser {
             if (command.charAt(i) != ' ') {
                 builder.append(command.charAt(i));
             }
-            if (command.charAt(i) == ' ' && !builder.isEmpty()) {
+            if ((command.charAt(i) == ' ' || i == command.length() - 1) && !builder.isEmpty()) {
                 arguments.add(builder.toString());
                 builder = new StringBuilder();
             }
             i++;
         }
-        // add pattern to check if a command is of a correct format
         return arguments;
     }
 }

@@ -14,29 +14,33 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@AllArgsConstructor
 public class CommandExecutor {
 
     private final PrintWriter writer;
     private final BufferedReader reader;
-    private final OrderStorage orderStorage;
-    private final RepairerStorage repairerStorage;
+    private final List<NamedCommand> commands;
 
-    private final List<NamedCommand> commands = Stream.of(
-            new AssignRepairers("assign-repairers", orderStorage, repairerStorage),
-            new CancelOrder("cancel-order", orderStorage, repairerStorage),
-            new CompleteOrder("complete-order", orderStorage),
-            new FireRepairer("fire-repairer", repairerStorage, orderStorage),
-            new HireRepairer("hire-repairer", repairerStorage),
-            new ListOrders("list-orders", orderStorage),
-            new ListRepairers("list-repairers", repairerStorage),
-            new OpenOrder("open-order", orderStorage),
-            new ViewOrderInfo("view-order-info", orderStorage, repairerStorage)
-    ).toList();
+    public CommandExecutor(PrintWriter writer, BufferedReader reader, OrderStorage orderStorage, RepairerStorage repairerStorage) {
+        this.writer = writer;
+        this.reader = reader;
+        this.commands = Stream.of(
+                new AssignRepairers("assign-repairers", orderStorage, repairerStorage),
+                new CancelOrder("cancel-order", orderStorage, repairerStorage),
+                new CompleteOrder("complete-order", orderStorage),
+                new FireRepairer("fire-repairer", repairerStorage, orderStorage),
+                new HireRepairer("hire-repairer", repairerStorage),
+                new ListOrders("list-orders", orderStorage),
+                new ListRepairers("list-repairers", repairerStorage),
+                new OpenOrder("open-order", orderStorage),
+                new ViewOrderInfo("view-order-info", orderStorage, repairerStorage)
+        ).toList();
+    }
 
     public void start() {
         while (true) {
             try {
+                writer.print("> ");
+                writer.flush();
                 String command = reader.readLine();
 
                 if (Objects.equals(command, "exit")) {
