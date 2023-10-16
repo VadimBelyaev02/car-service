@@ -1,7 +1,6 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommand;
-import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
+import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
 import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.storage.OrderStorage;
@@ -10,11 +9,10 @@ import com.andersen.carservice.util.UuidHelper;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.InstantSource;
 import java.util.List;
 import java.util.UUID;
 
-public class OpenOrder extends NamedCommandWithFirstArgumentUuid {
+public class OpenOrder extends NamedCommandWithAllArgumentsUuid {
 
     private final OrderStorage orderStorage;
 

@@ -1,6 +1,6 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
+import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.util.constants.OrderUtil;
@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-public class CompleteOrder extends NamedCommandWithFirstArgumentUuid {
+public class CompleteOrder extends NamedCommandWithAllArgumentsUuid {
 
     private final OrderStorage orderStorage;
 

@@ -1,6 +1,6 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithFirstArgumentUuid;
+import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CancelOrder extends NamedCommandWithFirstArgumentUuid {
+public class CancelOrder extends NamedCommandWithAllArgumentsUuid {
 
     private final OrderStorage orderStorage;
     private final RepairerStorage repairerStorage;

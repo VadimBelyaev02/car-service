@@ -16,8 +16,8 @@ public abstract class NamedCommand implements Command {
 
     @Override
     public void execute(List<String> arguments, PrintWriter writer) {
-        if (arguments.size() > 1 && Objects.equals(arguments.get(0), name)) {
-            if (Objects.equals("--help", arguments.get(1))) {
+        if (!arguments.isEmpty() && Objects.equals(arguments.get(0), name)) {
+            if (arguments.size() > 1 && Objects.equals("--help", arguments.get(1))) {
                 printHelp(writer);
             } else {
                 runCommand(arguments, writer);
