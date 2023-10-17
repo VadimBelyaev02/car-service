@@ -1,30 +1,37 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
+import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.enums.OrderStatus;
-import com.andersen.carservice.storage.OrderStorage;
+import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.service.OrderService;
+import com.andersen.carservice.util.UuidHelper;
 import com.andersen.carservice.util.constants.OrderUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-public class CompleteOrder extends NamedCommandWithAllArgumentsUuid {
+public class CompleteOrder extends NamedCommand {
 
-    private final OrderStorage orderStorage;
+    private final OrderService orderService;
 
-    public CompleteOrder(String name, OrderStorage orderStorage) {
+    public CompleteOrder(String name, OrderService orderService) {
         super(name);
-        this.orderStorage = orderStorage;
+        this.orderService = orderService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
+        if (!UuidHelper.isParsable(arguments.get(1))) {
+            writer.println();
+        }
         UUID id = UUID.fromString(arguments.get(1));
-        orderStorage.findById(id).ifPresentOrElse(
-                order -> order.setStatus(OrderStatus.COMPLETED),
-                () -> writer.write(OrderUtil.notFoundById(id))
-        );
+
+        try {
+            orderService.changeOrderStatus(id, OrderStatus.COMPLETED);
+        } catch (NotFoundException e) {
+            writer.println(e.getMessage());
+        }
     }
 
     @Override

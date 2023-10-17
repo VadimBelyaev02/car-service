@@ -1,40 +1,39 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
-import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.storage.RepairerStorage;
+import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.service.RepairerService;
+import com.andersen.carservice.util.UuidHelper;
 import com.andersen.carservice.util.constants.RepairerUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-public class FireRepairer extends NamedCommandWithAllArgumentsUuid {
+public class FireRepairer extends NamedCommand {
 
-    private final RepairerStorage repairerStorage;
-    private final OrderStorage orderStorage;
+   private final RepairerService repairerService;
 
-    public FireRepairer(String name, RepairerStorage repairerStorage, OrderStorage orderStorage) {
+    public FireRepairer(String name, RepairerService repairerService) {
         super(name);
-        this.repairerStorage = repairerStorage;
-        this.orderStorage = orderStorage;
+
+        this.repairerService = repairerService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
+        if (!UuidHelper.isParsable(arguments.get(1))) {
+            writer.println();
+            return;
+        }
         UUID repairerId = UUID.fromString(arguments.get(1));
-        repairerStorage.findById(repairerId).ifPresentOrElse(
-                repairer -> {
-                    repairer.getOrdersIds().forEach(orderId -> {
-                        orderStorage.findById(orderId).ifPresentOrElse(
-                                order -> order.deleteRepairer(repairerId),
-                                () -> writer.println(RepairerUtil.notFoundById(repairerId))
-                        );
-                    });
-                    repairerStorage.deleteById(repairerId);
-                },
-                () -> writer.println(RepairerUtil.notFoundById(repairerId))
-        );
+
+        try {
+            repairerService.delete(repairerId);
+        } catch (NotFoundException e) {
+            writer.write(e.getMessage());
+        }
+
     }
 
     @Override

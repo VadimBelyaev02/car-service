@@ -1,9 +1,9 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
+import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.entity.enums.OrderStatus;
-import com.andersen.carservice.storage.OrderStorage;
+import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.util.UuidHelper;
 
 import java.io.PrintWriter;
@@ -12,13 +12,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public class OpenOrder extends NamedCommandWithAllArgumentsUuid {
+public class OpenOrder extends NamedCommand {
 
-    private final OrderStorage orderStorage;
+    private final OrderService orderService;
 
-    public OpenOrder(String name, OrderStorage orderStorage) {
+    public OpenOrder(String name, OrderService orderService) {
         super(name);
-        this.orderStorage = orderStorage;
+        this.orderService = orderService;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class OpenOrder extends NamedCommandWithAllArgumentsUuid {
                 .status(status)
                 .build();
 
-        Order savedOrder = orderStorage.save(order);
+        orderService.save(order);
     }
 
     @Override

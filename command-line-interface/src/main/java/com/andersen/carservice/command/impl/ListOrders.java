@@ -2,7 +2,7 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.Order;
-import com.andersen.carservice.storage.OrderStorage;
+import com.andersen.carservice.service.OrderService;
 
 import java.io.PrintWriter;
 import java.util.Comparator;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class ListOrders extends NamedCommand {
 
-    private final OrderStorage orderStorage;
+    private final OrderService orderService;
 
-    public ListOrders(String name, OrderStorage orderStorage) {
+    public ListOrders(String name, OrderService orderService) {
         super(name);
-        this.orderStorage = orderStorage;
+        this.orderService = orderService;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ListOrders extends NamedCommand {
                 .thenComparing(Order::getCompletionDate)
                 .thenComparing(Order::getStatus);
 
-        List<Order> orders = orderStorage.findAll().stream()
+        List<Order> orders = orderService.getAll().stream()
                 .sorted(comparator)
                 .toList();
 

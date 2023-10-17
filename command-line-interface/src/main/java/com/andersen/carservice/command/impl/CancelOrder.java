@@ -1,44 +1,37 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
-import com.andersen.carservice.entity.Repairer;
-import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.constants.OrderUtil;
-import com.andersen.carservice.util.constants.RepairerUtil;
+import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.service.OrderServiceImpl;
+import com.andersen.carservice.util.UuidHelper;
 
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public class CancelOrder extends NamedCommandWithAllArgumentsUuid {
+import static com.andersen.carservice.util.constants.GeneralConstants.UUID_IS_NOT_PARSABLE;
 
-    private final OrderStorage orderStorage;
-    private final RepairerStorage repairerStorage;
+public class CancelOrder extends NamedCommand {
 
-    public CancelOrder(String name, OrderStorage orderStorage, RepairerStorage repairerStorage) {
+    private final OrderServiceImpl orderService;
+
+    public CancelOrder(String name, OrderServiceImpl orderService) {
         super(name);
-        this.orderStorage = orderStorage;
-        this.repairerStorage = repairerStorage;
+        this.orderService = orderService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
+        if (!UuidHelper.isParsable(arguments.get(1))) {
+            writer.println(UUID_IS_NOT_PARSABLE);
+        }
         UUID orderId = UUID.fromString(arguments.get(1));
-        orderStorage.findById(orderId).ifPresentOrElse(
-                order -> {
-                    order.getRepairersIds().forEach(repairerId -> {
-                        Optional<Repairer> repairerOptional = repairerStorage.findById(repairerId);
-                        repairerOptional.ifPresentOrElse(
-                                repairer -> repairer.deleteOrder(orderId),
-                                () -> writer.println(RepairerUtil.notFoundById(repairerId))
-                        );
-                    });
-                    orderStorage.deleteById(orderId);
-                },
-                () -> writer.write(OrderUtil.notFoundById(orderId))
-        );
+
+        try {
+            orderService.deleteOrder(orderId);
+        } catch (NotFoundException e) {
+            writer.println(e.getMessage());
+        }
     }
 
 

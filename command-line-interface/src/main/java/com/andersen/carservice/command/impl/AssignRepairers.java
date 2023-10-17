@@ -1,44 +1,41 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommandWithAllArgumentsUuid;
-import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.storage.RepairerStorage;
+import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.service.OrderService;
+import com.andersen.carservice.util.UuidHelper;
 import com.andersen.carservice.util.constants.OrderUtil;
-import com.andersen.carservice.util.constants.RepairerUtil;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AssignRepairers extends NamedCommandWithAllArgumentsUuid {
+public class AssignRepairers extends NamedCommand {
 
-    private final OrderStorage orderStorage;
-    private final RepairerStorage repairerStorage;
+    private final OrderService orderService;
 
-    public AssignRepairers(String name, OrderStorage orderStorage, RepairerStorage repairerStorage) {
+    public AssignRepairers(String name, OrderService orderService) {
         super(name);
-        this.orderStorage = orderStorage;
-        this.repairerStorage = repairerStorage;
+        this.orderService = orderService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
+        List<UUID> repairersIds = new ArrayList<>();
+        for (int i = 1; i < arguments.size(); i++) {
+                if (!UuidHelper.isParsable(arguments.get(i))) {
+                    writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
+                    return;
+                }
+                repairersIds.add(UUID.fromString(arguments.get(i)));
+            }
         UUID orderId = UUID.fromString(arguments.get(1));
-        orderStorage.findById(orderId).ifPresentOrElse(
-                order -> arguments.stream()
-                        .skip(2)
-                        .forEach(element -> {
-                            UUID repairerId = UUID.fromString(element);
-                            repairerStorage.findById(repairerId).ifPresentOrElse(
-                                    repairer -> {
-                                        order.addRepairer(repairerId);
-                                        repairer.addOrder(orderId);
-                                    },
-                                    () -> writer.write(RepairerUtil.notFoundById(repairerId))
-                            );
-                        }),
-                () -> writer.write(OrderUtil.notFoundById(orderId))
-        );
+        try {
+            orderService.assignRepairers(orderId, repairersIds);
+        } catch (NotFoundException e) {
+            writer.println(OrderUtil.notFoundById(orderId));
+        }
     }
 
     @Override

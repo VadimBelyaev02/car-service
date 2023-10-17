@@ -2,7 +2,7 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.Repairer;
-import com.andersen.carservice.storage.RepairerStorage;
+import com.andersen.carservice.service.RepairerService;
 
 import java.io.PrintWriter;
 import java.util.Comparator;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public class ListRepairers extends NamedCommand {
 
-    private final RepairerStorage repairerStorage;
+    private final RepairerService repairerService;
 
-    public ListRepairers(String name, RepairerStorage repairerStorage) {
+    public ListRepairers(String name, RepairerService repairerService) {
         super(name);
-        this.repairerStorage = repairerStorage;
+        this.repairerService = repairerService;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ListRepairers extends NamedCommand {
                 .thenComparing(Repairer::getName)
                 .thenComparing(Repairer::getStatus);
 
-        List<Repairer> repairers = repairerStorage.findAll().stream()
+        List<Repairer> repairers = repairerService.getAll().stream()
                 .sorted(comparator)
                 .toList();
         for (int i = 0; i < repairers.size(); i++) {

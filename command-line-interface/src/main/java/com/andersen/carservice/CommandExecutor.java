@@ -1,6 +1,5 @@
 package com.andersen.carservice;
 
-import com.andersen.carservice.command.Command;
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.command.impl.*;
 import com.andersen.carservice.storage.OrderStorage;
@@ -25,14 +24,14 @@ public class CommandExecutor {
         this.reader = reader;
         this.commands = Stream.of(
                 new AssignRepairers("assign-repairers", orderStorage, repairerStorage),
-                new CancelOrder("cancel-order", orderStorage, repairerStorage),
+                new CancelOrder("cancel-order", orderService),
                 new CompleteOrder("complete-order", orderStorage),
-                new FireRepairer("fire-repairer", repairerStorage, orderStorage),
-                new HireRepairer("hire-repairer", repairerStorage),
-                new ListOrders("list-orders", orderStorage),
-                new ListRepairers("list-repairers", repairerStorage),
-                new OpenOrder("open-order", orderStorage),
-                new ViewOrderInfo("view-order-info", orderStorage, repairerStorage)
+                new FireRepairer("fire-repairer", repairerService),
+                new HireRepairer("hire-repairer", repairerService),
+                new ListOrders("list-orders", orderService),
+                new ListRepairers("list-repairers", repairerService),
+                new OpenOrder("open-order", orderService),
+                new ViewOrderInfo("view-order-info", orderService, repairerService)
         ).toList();
     }
 
@@ -48,18 +47,18 @@ public class CommandExecutor {
                     return;
                 }
                 List<String> arguments = ArgumentParser.parse(userInput);
-                boolean isInvalid = true;
-                for (NamedCommand command : commands) {
-                    if (Objects.equals(command.getName(), arguments.get(0))) {
-                        isInvalid = false;
-                        command.execute(arguments, writer);
-                        break;
-                    }
-                }
-                if (isInvalid) {
-                    writer.println("Invalid command");
-                }
-                //commands.forEach(a -> a.execute(arguments, writer));
+//                boolean isInvalid = true;
+//                for (NamedCommand command : commands) {
+//                    if (Objects.equals(command.getName(), arguments.get(0))) {
+//                        isInvalid = false;
+//                        command.execute(arguments, writer);
+//                        break;
+//                    }
+//                }
+//                if (isInvalid) {
+//                    writer.println("Invalid command");
+//                }
+                commands.forEach(a -> a.execute(arguments, writer));
             } catch (IOException e) {
                 writer.println(e.getMessage());
             }
