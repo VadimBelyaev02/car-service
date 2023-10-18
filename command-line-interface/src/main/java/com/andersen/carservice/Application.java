@@ -20,13 +20,13 @@ public class Application {
     private final OrderMapper orderMapper = new OrderMapper(repairerStorage);
 
 
-    private final RepairerMapper repairerMapper = new RepairerMapper();
+    private final RepairerMapper repairerMapper = new RepairerMapper(orderStorage);
 
     private final CommandExecutor commandExecutor = new CommandExecutor(
             new PrintWriter(System.out),
             new BufferedReader(new InputStreamReader(System.in)),
-            new OrderServiceImpl(orderStorage, repairerStorage, orderMapper),
-            new RepairerServiceImpl(orderStorage, repairerStorage, repairerMapper)
+            new OrderServiceImpl(0, orderStorage, repairerStorage, orderMapper),
+            new RepairerServiceImpl(0, orderStorage, repairerStorage, repairerMapper)
     );
     public static void main(String[] args) {
         System.out.println("Car Service!");

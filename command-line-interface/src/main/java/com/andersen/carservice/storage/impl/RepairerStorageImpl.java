@@ -23,7 +23,8 @@ public class RepairerStorageImpl implements RepairerStorage {
         if (Objects.isNull(repairer.getId())) { // check not null repairer
             repairer.setId(UuidHelper.generate());
         }
-        return repairers.put(repairer.getId(), repairer);
+        repairers.put(repairer.getId(), repairer);
+        return repairer;
     }
 
     @Override
@@ -40,5 +41,11 @@ public class RepairerStorageImpl implements RepairerStorage {
     @Override
     public boolean existsById(UUID id) {
         return findById(id).isPresent();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repairers.values().stream()
+                .anyMatch(repairer -> Objects.equals(email, repairer.getEmail()));
     }
 }

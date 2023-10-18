@@ -20,7 +20,7 @@ public interface OrderService {
 
     List<OrderResponse> getAll();
 
-    OrderResponse save(OrderRequest order);
+    public OrderResponse save(OrderRequest orderRequest) throws NotFoundException;
 
     OrderResponse update(UUID orderId, OrderRequest request) throws NotFoundException;
 

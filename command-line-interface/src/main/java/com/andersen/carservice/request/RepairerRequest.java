@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,5 +19,6 @@ public class RepairerRequest {
     private String email;
 
     @ToString.Exclude
-    private List<UUID> ordersIds;
+    @Builder.Default
+    private List<UUID> ordersIds = new ArrayList<>();
 }

@@ -1,0 +1,20 @@
+hire-repairer vadim vadimbelaev002@gmail.com
+hire-repairer nikolay nikolay@gmail.com
+hire-repairer dima dima@gmail.com
+
+open-order 50.00
+open-order 100.00
+
+
+assign-repairers 20c55039-1ad8-4c07-a144-a593cfa84594 f0336cd8-6ef8-4a9c-8e84-997eaa7d7822 a6e2c660-3424-4d7e-8e2f-1f90866964ff 22d6c085-2754-41c1-a5cc-5f75169d0d38
+
+view-order-info 20c55039-1ad8-4c07-a144-a593cfa84594
+
+cancel-order b5d71db4-8082-4658-b76e-139bf3c2dadd
+
+fire-repairer f0336cd8-6ef8-4a9c-8e84-997eaa7d7822
+
+complete-order 20c55039-1ad8-4c07-a144-a593cfa84594
+
+
+

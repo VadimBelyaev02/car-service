@@ -38,7 +38,7 @@ public class CommandExecutor {
     public void start() {
         while (true) {
             try {
-                writer.print("> ");
+                writer.print("\n> ");
                 writer.flush();
                 String userInput = reader.readLine();
 
@@ -60,7 +60,7 @@ public class CommandExecutor {
 //                }
                 commands.forEach(a -> a.execute(arguments, writer));
             } catch (IOException e) {
-                writer.println(e.getMessage());
+                writer.println(e.getMessage() + "\n");
             }
         }
     }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,8 @@ public class Order {
     private OrderStatus status;
 
     @ToString.Exclude
-    private List<UUID> repairersIds;
+    @Builder.Default
+    private List<UUID> repairersIds = new ArrayList<>();
 
     public void addRepairer(UUID repairerId) {
         repairersIds.add(repairerId);

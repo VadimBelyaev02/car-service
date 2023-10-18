@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,5 +17,8 @@ public class RepairerResponse {
     private String name;
     private RepairerStatus status;
     private String email;
-    private List<Order> orders;
+
+    @Builder.Default
+    private List<Order> orders = new ArrayList<>();
+
 }

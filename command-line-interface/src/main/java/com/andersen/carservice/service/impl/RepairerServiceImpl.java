@@ -2,22 +2,27 @@ package com.andersen.carservice.service.impl;
 
 import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.entity.enums.RepairerStatus;
+import com.andersen.carservice.exception.AlreadyExistsException;
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.mapper.RepairerMapper;
+import com.andersen.carservice.request.RepairerRequest;
 import com.andersen.carservice.response.RepairerResponse;
 import com.andersen.carservice.service.RepairerService;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
 import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.constants.OrderUtil;
 import com.andersen.carservice.util.constants.RepairerUtil;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
 public class RepairerServiceImpl implements RepairerService {
 
+    private int i = 0;
     private final OrderStorage orderStorage;
     private final RepairerStorage repairerStorage;
     private final RepairerMapper repairerMapper;
@@ -33,19 +38,54 @@ public class RepairerServiceImpl implements RepairerService {
         Repairer repairer = repairerStorage.findById(repairerId).orElseThrow(
                 () -> new NotFoundException(RepairerUtil.notFoundById(repairerId))
         );
-        repairer.getOrdersIds().forEach(
-                orderStorage::deleteById
-        );
+        deleteAssignedRepairers(repairer);
         repairerStorage.deleteById(repairerId);
     }
 
-    public RepairerResponse save(Repairer repairer) {
+    public RepairerResponse save(RepairerRequest repairerRequest) throws NotFoundException, AlreadyExistsException {
+        Repairer repairer = repairerMapper.toEntity(repairerRequest);
         repairer.setId(UuidHelper.generate());
+
+        if (i == 0) {
+            repairer.setId(UUID.fromString("f0336cd8-6ef8-4a9c-8e84-997eaa7d7822"));
+        }
+        if (i == 1) {
+            repairer.setId(UUID.fromString("a6e2c660-3424-4d7e-8e2f-1f90866964ff"));
+        }
+        if (i == 2) {
+            repairer.setId(UUID.fromString("22d6c085-2754-41c1-a5cc-5f75169d0d38"));
+        }
+        i++;
+        if (repairerStorage.existsByEmail(repairer.getEmail())) {
+            throw new AlreadyExistsException(RepairerUtil.alreadyExistsByEmail(repairer.getEmail()));
+        }
+
         repairer.setStatus(RepairerStatus.ACTIVE);
+        assignRepairersToOrders(repairer);
+
         Repairer savedRepairer = repairerStorage.save(repairer);
         return repairerMapper.toResponse(savedRepairer);
     }
 
+    private void deleteAssignedRepairers(Repairer repairer) {
+        if (Objects.nonNull(repairer.getOrdersIds())) {
+            repairer.getOrdersIds().forEach(orderId ->
+                    orderStorage.findById(orderId).ifPresent(
+                            order -> order.deleteRepairer(repairer.getId())
+                    )
+            );
+        }
+    }
+
+    private void assignRepairersToOrders(Repairer repairer) throws NotFoundException {
+        if (Objects.nonNull(repairer.getOrdersIds())) {
+            for (UUID orderId : repairer.getOrdersIds()) {
+                orderStorage.findById(orderId).orElseThrow(
+                        () -> new NotFoundException(OrderUtil.notFoundById(orderId))
+                ).addRepairer(repairer.getId());
+            }
+        }
+    }
 
     public List<RepairerResponse> getAll() {
         return repairerStorage.findAll().stream()

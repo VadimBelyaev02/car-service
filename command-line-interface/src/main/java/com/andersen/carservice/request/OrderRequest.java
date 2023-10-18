@@ -1,13 +1,11 @@
 package com.andersen.carservice.request;
 
 import com.andersen.carservice.entity.enums.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +13,11 @@ import java.util.UUID;
 @Builder
 @Data
 public class OrderRequest {
-
     private BigDecimal price;
     private Instant completionDate;
     private OrderStatus status;
-    private List<UUID> repairersIds;
+
+    @Builder.Default
+    @ToString.Exclude
+    private List<UUID> repairersIds = new ArrayList<>();
 }

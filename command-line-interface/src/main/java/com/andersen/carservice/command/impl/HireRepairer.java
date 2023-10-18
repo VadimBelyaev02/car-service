@@ -2,6 +2,9 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.Repairer;
+import com.andersen.carservice.exception.AlreadyExistsException;
+import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.request.RepairerRequest;
 import com.andersen.carservice.response.RepairerResponse;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
 
@@ -19,24 +22,29 @@ public class HireRepairer extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (arguments.size() < 2) {
-            writer.println();
+        if (arguments.size() < 3) {
+            writer.println("Not enough parameters");
             return;
         }
         final String name = arguments.get(1);
-        final String email = arguments.get(2);
-        if (!email.matches("^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$\n")) {
-            writer.println();
+        final String email = arguments.get(2).trim();
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            writer.println("Incorrect email: \\'" + email + "\\'");
             return;
         }
 
-        Repairer repairer = Repairer.builder()
+        RepairerRequest repairer = RepairerRequest.builder()
                 .email(email)
                 .name(name)
                 .build();
 
-        RepairerResponse response = repairerService.save(repairer);
-        writer.println("Repairer saved: " + response);
+        RepairerResponse response = null;
+        try {
+            response = repairerService.save(repairer);
+            writer.println("Repairer saved: " + response);
+        } catch (NotFoundException | AlreadyExistsException e) {
+            writer.println(e.getMessage());
+        }
     }
 
     @Override
@@ -44,7 +52,7 @@ public class HireRepairer extends NamedCommand {
         writer.println("The command hires one repairer. ");
         writer.println("The first argument is a name, the second is a status, the third is an email. ");
         writer.println("Format: " + name + " <name> <email>");
-        writer.println("Example: " + name + " Vadim active vadimbelav002@gmail.com");
+        writer.println("Example: " + name + " Vadim vadimbelav002@gmail.com");
         writer.println("Notes: status can be written in any case. Status can be 'Active' or 'Inactive'. ");
     }
 }

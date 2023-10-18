@@ -30,6 +30,9 @@ public class ListRepairers extends NamedCommand {
         for (int i = 0; i < repairers.size(); i++) {
             writer.println((i + 1) + ") " + repairers.get(i));
         }
+        if (repairers.isEmpty()) {
+            writer.println("There are no repairers. ");
+        }
     }
 
     @Override

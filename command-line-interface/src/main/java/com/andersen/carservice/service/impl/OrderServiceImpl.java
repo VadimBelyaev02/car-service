@@ -1,6 +1,7 @@
 package com.andersen.carservice.service.impl;
 
 import com.andersen.carservice.entity.Order;
+import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.mapper.OrderMapper;
@@ -11,15 +12,19 @@ import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
 import com.andersen.carservice.util.UuidHelper;
 import com.andersen.carservice.util.constants.OrderUtil;
+import com.andersen.carservice.util.constants.RepairerUtil;
 import lombok.AllArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+
+    private int i = 0;
     private final OrderStorage orderStorage;
     private final RepairerStorage repairerStorage;
     private final OrderMapper orderMapper;
@@ -40,11 +45,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderStorage.findById(orderId).orElseThrow(
                 () -> new NotFoundException(OrderUtil.notFoundById(orderId))
         );
-        order.getRepairersIds().forEach(repairerId -> {
-            repairerStorage.findById(repairerId).ifPresent(
-                    repairer -> repairer.deleteOrder(orderId)
-            );
-        });
+        deleteOrdersFromRepairer(order);
         orderStorage.deleteById(orderId);
     }
 
@@ -64,18 +65,23 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
-
-    private void synchronizeRepairers(Order order) {
-
-    }
-
     @Override
-    public OrderResponse save(OrderRequest orderRequest) {
+    public OrderResponse save(OrderRequest orderRequest) throws NotFoundException {
         Order order = orderMapper.toEntity(orderRequest);
         order.setId(UuidHelper.generate());
+
+        if (i == 0) {
+            order.setId(UUID.fromString("b5d71db4-8082-4658-b76e-139bf3c2dadd"));
+        }
+        if (i == 1) {
+            order.setId(UUID.fromString("20c55039-1ad8-4c07-a144-a593cfa84594"));
+        }
+        i++;
         order.setStatus(OrderStatus.ACTIVE);
         order.setOpeningDate(Instant.now());
-        synchronizeRepairers(order);
+
+        assignOrdersToRepairers(order);
+
         Order savedOrder = orderStorage.save(order);
         return orderMapper.toResponse(savedOrder);
     }
@@ -85,10 +91,33 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderStorage.findById(orderId).orElseThrow(
                 () -> new NotFoundException(OrderUtil.notFoundById(orderId))
         );
+        deleteOrdersFromRepairer(order);
         orderMapper.updateEntity(order, request);
+        assignOrdersToRepairers(order);
+
         Order updatedOrder = orderStorage.save(order);
         return orderMapper.toResponse(updatedOrder);
     }
+
+    private void deleteOrdersFromRepairer(Order order) {
+        if (Objects.nonNull(order.getRepairersIds())) {
+            order.getRepairersIds().forEach(repairerId -> repairerStorage.findById(repairerId).ifPresent(
+                    repairer -> repairer.deleteOrder(order.getId())
+            ));
+        }
+    }
+
+    private void assignOrdersToRepairers(Order order) throws NotFoundException {
+        for (UUID repairerId : order.getRepairersIds()) {
+            repairerStorage.findById(repairerId).orElseThrow(
+                    () -> new NotFoundException(RepairerUtil.notFoundById(repairerId))
+            ).addOrder(order.getId());
+        }
+    }
+
+
+
+
 
 //    @Override
 //    public void changeOrderStatus(UUID orderId, OrderStatus status) throws NotFoundException {

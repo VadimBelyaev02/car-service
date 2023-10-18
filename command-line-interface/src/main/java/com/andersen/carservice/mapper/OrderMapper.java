@@ -1,6 +1,7 @@
 package com.andersen.carservice.mapper;
 
 import com.andersen.carservice.entity.Order;
+import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.request.OrderRequest;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -26,7 +28,10 @@ public class OrderMapper {
         final OrderStatus orderStatus = order.getStatus();
         final Instant openingDate = order.getOpeningDate();
         final Instant completionDate = order.getCompletionDate();
-
+        final List<Repairer> repairers = new ArrayList<>();
+        order.getRepairersIds().forEach(repairerId -> {
+            repairerStorage.findById(repairerId).ifPresent(repairers::add);
+        });
 
         return OrderResponse.builder()
                 .price(price)
@@ -34,6 +39,7 @@ public class OrderMapper {
                 .status(orderStatus)
                 .openingDate(openingDate)
                 .completionDate(completionDate)
+                .repairers(repairers)
                 .build();
     }
 
@@ -59,7 +65,7 @@ public class OrderMapper {
         if (Objects.nonNull(orderRequest.getStatus())) {
             target.setStatus(orderRequest.getStatus());
         }
-        if (Objects.nonNull(orderRequest.getRepairersIds())) {
+        if (Objects.nonNull(orderRequest.getRepairersIds()) && !orderRequest.getRepairersIds().isEmpty()) {
             target.setRepairersIds(orderRequest.getRepairersIds());
         }
     }

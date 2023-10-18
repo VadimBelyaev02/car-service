@@ -23,7 +23,8 @@ public class OrderStorageImpl implements OrderStorage {
         if (Objects.isNull(order.getId())) {
             order.setId(UuidHelper.generate());
         }
-        return orders.put(order.getId(), order);
+        orders.put(order.getId(), order);
+        return order;
     }
 
     @Override

@@ -1,15 +1,14 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.request.OrderRequest;
 import com.andersen.carservice.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
-import com.andersen.carservice.util.UuidHelper;
 
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public class OpenOrder extends NamedCommand {
 
@@ -28,8 +27,12 @@ public class OpenOrder extends NamedCommand {
                 .price(price)
                 .build();
 
-        OrderResponse orderResponse = orderService.save(orderRequest);
-        writer.println("Order saved: " + orderResponse);
+        try {
+            OrderResponse orderResponse = orderService.save(orderRequest);
+            writer.println("Order saved: " + orderResponse);
+        } catch (NotFoundException e) {
+            writer.println(e.getMessage());
+        }
     }
 
     @Override

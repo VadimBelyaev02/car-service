@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,8 @@ public class OrderResponse {
     private OrderStatus status;
 
     @ToString.Exclude
-    private List<Repairer> repairers;
+    @Builder.Default
+    private List<Repairer> repairers = new ArrayList<>();
 
 //    @Override
 //    public String toString() {

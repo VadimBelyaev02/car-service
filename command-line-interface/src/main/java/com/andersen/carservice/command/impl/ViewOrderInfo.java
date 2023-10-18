@@ -36,6 +36,9 @@ public class ViewOrderInfo extends NamedCommand {
             if (Objects.nonNull(order.getCompletionDate())) {
                 writer.println(i + ") Completion date: " + order.getCompletionDate());
             }
+            if (!order.getRepairers().isEmpty()) {
+                writer.println("Repairers:");
+            }
             order.getRepairers().forEach(writer::println);
         } catch (NotFoundException e) {
             writer.println(e.getMessage());
