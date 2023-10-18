@@ -1,8 +1,7 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.exception.NotFoundException;
-import com.andersen.carservice.response.OrderResponse;
+import com.andersen.carservice.model.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
 

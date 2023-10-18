@@ -1,6 +1,6 @@
 package com.andersen.carservice.storage;
 
-import com.andersen.carservice.entity.Repairer;
+import com.andersen.carservice.model.entity.Repairer;
 
 import java.util.UUID;
 

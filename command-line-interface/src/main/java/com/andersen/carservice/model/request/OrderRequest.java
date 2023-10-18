@@ -1,6 +1,6 @@
-package com.andersen.carservice.request;
+package com.andersen.carservice.model.request;
 
-import com.andersen.carservice.entity.enums.OrderStatus;
+import com.andersen.carservice.model.entity.enums.OrderStatus;
 import lombok.*;
 
 import java.math.BigDecimal;

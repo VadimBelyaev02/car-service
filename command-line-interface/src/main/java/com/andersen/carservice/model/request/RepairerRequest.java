@@ -1,6 +1,6 @@
-package com.andersen.carservice.request;
+package com.andersen.carservice.model.request;
 
-import com.andersen.carservice.entity.enums.RepairerStatus;
+import com.andersen.carservice.model.entity.enums.RepairerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

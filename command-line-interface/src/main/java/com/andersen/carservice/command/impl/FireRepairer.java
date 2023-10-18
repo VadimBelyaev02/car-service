@@ -1,6 +1,5 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
 import com.andersen.carservice.util.UuidHelper;
@@ -21,7 +20,7 @@ public class FireRepairer extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (!UuidHelper.isParsable(arguments.get(1))) {
+        if (UuidHelper.isNotParsable(arguments.get(1))) {
             writer.println();
             return;
         }

@@ -1,10 +1,9 @@
-package com.andersen.carservice.response;
+package com.andersen.carservice.model.response;
 
-import com.andersen.carservice.entity.Order;
-import com.andersen.carservice.entity.enums.RepairerStatus;
+import com.andersen.carservice.model.entity.Order;
+import com.andersen.carservice.model.entity.enums.RepairerStatus;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;

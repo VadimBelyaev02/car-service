@@ -1,11 +1,10 @@
-package com.andersen.carservice.entity;
+package com.andersen.carservice.model.entity;
 
-import com.andersen.carservice.entity.enums.RepairerStatus;
+import com.andersen.carservice.model.entity.enums.RepairerStatus;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.Builder.Default;
 

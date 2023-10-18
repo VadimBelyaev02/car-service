@@ -1,6 +1,6 @@
 package com.andersen.carservice.storage;
 
-import com.andersen.carservice.entity.Order;
+import com.andersen.carservice.model.entity.Order;
 
 import java.util.UUID;
 

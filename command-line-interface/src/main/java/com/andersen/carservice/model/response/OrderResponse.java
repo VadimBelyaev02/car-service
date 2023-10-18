@@ -1,7 +1,7 @@
-package com.andersen.carservice.response;
+package com.andersen.carservice.model.response;
 
-import com.andersen.carservice.entity.Repairer;
-import com.andersen.carservice.entity.enums.OrderStatus;
+import com.andersen.carservice.model.entity.Repairer;
+import com.andersen.carservice.model.entity.enums.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;

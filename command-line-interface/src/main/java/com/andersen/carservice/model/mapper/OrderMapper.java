@@ -1,12 +1,10 @@
-package com.andersen.carservice.mapper;
+package com.andersen.carservice.model.mapper;
 
-import com.andersen.carservice.entity.Order;
-import com.andersen.carservice.entity.Repairer;
-import com.andersen.carservice.entity.enums.OrderStatus;
-import com.andersen.carservice.exception.NotFoundException;
-import com.andersen.carservice.request.OrderRequest;
-import com.andersen.carservice.response.OrderResponse;
-import com.andersen.carservice.response.RepairerResponse;
+import com.andersen.carservice.model.entity.Order;
+import com.andersen.carservice.model.entity.Repairer;
+import com.andersen.carservice.model.entity.enums.OrderStatus;
+import com.andersen.carservice.model.request.OrderRequest;
+import com.andersen.carservice.model.response.OrderResponse;
 import com.andersen.carservice.storage.RepairerStorage;
 import lombok.AllArgsConstructor;
 

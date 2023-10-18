@@ -22,12 +22,12 @@ public class UuidHelper {
         return new UUID(ByteBuffer.wrap(randomBytes).getLong(), ByteBuffer.wrap(randomBytes, 8, 8).getLong());
     }
 
-    public static boolean isParsable(String uuidString) {
+    public static boolean isNotParsable(String uuidString) {
         try {
             UUID.fromString(uuidString);
-            return true;
-        } catch (IllegalArgumentException e) {
             return false;
+        } catch (IllegalArgumentException e) {
+            return true;
         }
     }
 

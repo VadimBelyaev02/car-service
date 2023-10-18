@@ -1,7 +1,6 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommand;
-import com.andersen.carservice.response.RepairerResponse;
+import com.andersen.carservice.model.response.RepairerResponse;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
 
 import java.io.PrintWriter;

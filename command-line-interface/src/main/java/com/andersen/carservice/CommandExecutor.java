@@ -1,6 +1,6 @@
 package com.andersen.carservice;
 
-import com.andersen.carservice.command.NamedCommand;
+import com.andersen.carservice.command.impl.NamedCommand;
 import com.andersen.carservice.command.impl.*;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;

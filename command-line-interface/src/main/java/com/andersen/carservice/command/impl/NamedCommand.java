@@ -1,5 +1,6 @@
-package com.andersen.carservice.command;
+package com.andersen.carservice.command.impl;
 
+import com.andersen.carservice.command.Command;
 import lombok.Getter;
 
 import java.io.PrintWriter;

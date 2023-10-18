@@ -1,9 +1,8 @@
 package com.andersen.carservice.storage.impl;
 
-import com.andersen.carservice.entity.Order;
+import com.andersen.carservice.model.entity.Order;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.util.UuidHelper;
-import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.*;

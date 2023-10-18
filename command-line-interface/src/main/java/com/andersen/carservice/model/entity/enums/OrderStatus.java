@@ -1,4 +1,4 @@
-package com.andersen.carservice.entity.enums;
+package com.andersen.carservice.model.entity.enums;
 
 public enum OrderStatus {
     ACTIVE,

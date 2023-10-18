@@ -1,7 +1,7 @@
 package com.andersen.carservice;
 
-import com.andersen.carservice.mapper.OrderMapper;
-import com.andersen.carservice.mapper.RepairerMapper;
+import com.andersen.carservice.model.mapper.OrderMapper;
+import com.andersen.carservice.model.mapper.RepairerMapper;
 import com.andersen.carservice.service.impl.OrderServiceImpl;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
 import com.andersen.carservice.storage.OrderStorage;

@@ -1,10 +1,9 @@
 package com.andersen.carservice.service;
 
-import com.andersen.carservice.entity.Repairer;
 import com.andersen.carservice.exception.AlreadyExistsException;
 import com.andersen.carservice.exception.NotFoundException;
-import com.andersen.carservice.request.RepairerRequest;
-import com.andersen.carservice.response.RepairerResponse;
+import com.andersen.carservice.model.request.RepairerRequest;
+import com.andersen.carservice.model.response.RepairerResponse;
 
 import java.util.List;
 import java.util.UUID;

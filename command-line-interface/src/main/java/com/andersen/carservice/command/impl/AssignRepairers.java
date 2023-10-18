@@ -1,8 +1,7 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.exception.NotFoundException;
-import com.andersen.carservice.request.OrderRequest;
+import com.andersen.carservice.model.request.OrderRequest;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.util.UuidHelper;
 
@@ -24,7 +23,7 @@ public class AssignRepairers extends NamedCommand {
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         List<UUID> repairersIds = new ArrayList<>();
         for (int i = 2; i < arguments.size(); i++) {
-            if (!UuidHelper.isParsable(arguments.get(i))) {
+            if (UuidHelper.isNotParsable(arguments.get(i))) {
                 writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
                 return;
             }
