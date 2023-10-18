@@ -7,8 +7,10 @@ import java.security.SecureRandom;
 import java.util.UUID;
 
 @UtilityClass
-public class UuidHelper {
+public class UuidUtil {
     private final SecureRandom random = new SecureRandom();
+    public static final String UUID_IS_NOT_PARSABLE = "Expected argument of type UUID, got: %s";
+
 
     public static UUID generate() {
         byte[] randomBytes = new byte[16];
@@ -31,5 +33,7 @@ public class UuidHelper {
         }
     }
 
-
+    public static String uuidIsNotParsable(String argument) {
+        return String.format(UUID_IS_NOT_PARSABLE, argument);
+    }
 }

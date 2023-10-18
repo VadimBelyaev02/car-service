@@ -2,11 +2,13 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
-import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.UuidUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
+
+import static com.andersen.carservice.util.constants.GeneralConstants.UUID_IS_NOT_PARSABLE;
 
 public class FireRepairer extends NamedCommand {
 
@@ -20,14 +22,14 @@ public class FireRepairer extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (UuidHelper.isNotParsable(arguments.get(1))) {
-            writer.println();
+        if (UuidUtil.isNotParsable(arguments.get(1))) {
+            writer.println(UUID_IS_NOT_PARSABLE);
             return;
         }
         UUID repairerId = UUID.fromString(arguments.get(1));
 
         try {
-            repairerService.delete(repairerId);
+            repairerService.deleteById(repairerId);
             writer.println("Repairer with id = " + repairerId + " was fired");
         } catch (NotFoundException e) {
             writer.write(e.getMessage());

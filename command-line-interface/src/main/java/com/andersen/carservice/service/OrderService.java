@@ -9,17 +9,13 @@ import java.util.UUID;
 
 public interface OrderService {
 
-  //  OrderResponse assignRepairers(UUID orderId, List<UUID> repairersIds) throws NotFoundException;
-
     void deleteById(UUID orderId) throws NotFoundException;
 
     OrderResponse getById(UUID orderId) throws NotFoundException;
 
     List<OrderResponse> getAll();
 
-    public OrderResponse save(OrderRequest orderRequest) throws NotFoundException;
+    OrderResponse save(OrderRequest orderRequest) throws NotFoundException;
 
     OrderResponse update(UUID orderId, OrderRequest request) throws NotFoundException;
-
-   // OrderResponse changeOrderStatus(UUID orderId, OrderStatus status) throws NotFoundException;
 }

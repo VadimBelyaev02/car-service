@@ -5,7 +5,7 @@ import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.model.request.OrderRequest;
 import com.andersen.carservice.model.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
-import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.UuidUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,7 +22,7 @@ public class CompleteOrder extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (UuidHelper.isNotParsable(arguments.get(1))) {
+        if (UuidUtil.isNotParsable(arguments.get(1))) {
             writer.println();
         }
         UUID orderId = UUID.fromString(arguments.get(1));

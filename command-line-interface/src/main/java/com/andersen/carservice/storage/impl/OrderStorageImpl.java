@@ -2,7 +2,7 @@ package com.andersen.carservice.storage.impl;
 
 import com.andersen.carservice.model.entity.Order;
 import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.UuidUtil;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public class OrderStorageImpl implements OrderStorage {
     @Override
     public Order save(Order order) {
         if (Objects.isNull(order.getId())) {
-            order.setId(UuidHelper.generate());
+            order.setId(UuidUtil.generate());
         }
         orders.put(order.getId(), order);
         return order;

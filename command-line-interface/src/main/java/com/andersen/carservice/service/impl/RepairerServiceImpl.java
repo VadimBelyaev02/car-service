@@ -1,22 +1,21 @@
 package com.andersen.carservice.service.impl;
 
-import com.andersen.carservice.model.entity.Repairer;
-import com.andersen.carservice.model.entity.enums.RepairerStatus;
 import com.andersen.carservice.exception.AlreadyExistsException;
 import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.model.entity.Repairer;
+import com.andersen.carservice.model.entity.enums.RepairerStatus;
 import com.andersen.carservice.model.mapper.RepairerMapper;
 import com.andersen.carservice.model.request.RepairerRequest;
 import com.andersen.carservice.model.response.RepairerResponse;
 import com.andersen.carservice.service.RepairerService;
 import com.andersen.carservice.storage.OrderStorage;
 import com.andersen.carservice.storage.RepairerStorage;
-import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.UuidUtil;
 import com.andersen.carservice.util.constants.OrderUtil;
 import com.andersen.carservice.util.constants.RepairerUtil;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -34,7 +33,7 @@ public class RepairerServiceImpl implements RepairerService {
         return repairerMapper.toResponse(repairer);
     }
 
-    public void delete(UUID repairerId) throws NotFoundException {
+    public void deleteById(UUID repairerId) throws NotFoundException {
         Repairer repairer = repairerStorage.findById(repairerId).orElseThrow(
                 () -> new NotFoundException(RepairerUtil.notFoundById(repairerId))
         );
@@ -44,7 +43,7 @@ public class RepairerServiceImpl implements RepairerService {
 
     public RepairerResponse save(RepairerRequest repairerRequest) throws NotFoundException, AlreadyExistsException {
         Repairer repairer = repairerMapper.toEntity(repairerRequest);
-        repairer.setId(UuidHelper.generate());
+        repairer.setId(UuidUtil.generate());
 
         if (i == 0) {
             repairer.setId(UUID.fromString("f0336cd8-6ef8-4a9c-8e84-997eaa7d7822"));
@@ -68,22 +67,18 @@ public class RepairerServiceImpl implements RepairerService {
     }
 
     private void deleteAssignedRepairers(Repairer repairer) {
-        if (Objects.nonNull(repairer.getOrdersIds())) {
-            repairer.getOrdersIds().forEach(orderId ->
-                    orderStorage.findById(orderId).ifPresent(
-                            order -> order.deleteRepairer(repairer.getId())
-                    )
-            );
-        }
+        repairer.getOrdersIds().forEach(orderId ->
+                orderStorage.findById(orderId).ifPresent(
+                        order -> order.deleteRepairer(repairer.getId())
+                )
+        );
     }
 
     private void assignRepairersToOrders(Repairer repairer) throws NotFoundException {
-        if (Objects.nonNull(repairer.getOrdersIds())) {
-            for (UUID orderId : repairer.getOrdersIds()) {
-                orderStorage.findById(orderId).orElseThrow(
-                        () -> new NotFoundException(OrderUtil.notFoundById(orderId))
-                ).addRepairer(repairer.getId());
-            }
+        for (UUID orderId : repairer.getOrdersIds()) {
+            orderStorage.findById(orderId).orElseThrow(
+                    () -> new NotFoundException(OrderUtil.notFoundById(orderId))
+            ).addRepairer(repairer.getId());
         }
     }
 

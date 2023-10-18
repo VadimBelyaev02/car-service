@@ -12,7 +12,7 @@ public interface RepairerService {
 
     RepairerResponse getById(UUID repairerId) throws NotFoundException;
 
-    void delete(UUID repairerId) throws NotFoundException;
+    void deleteById(UUID repairerId) throws NotFoundException;
 
     RepairerResponse save(RepairerRequest repairerRequest) throws NotFoundException, AlreadyExistsException;
 

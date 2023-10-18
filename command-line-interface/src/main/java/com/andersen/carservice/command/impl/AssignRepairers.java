@@ -3,7 +3,7 @@ package com.andersen.carservice.command.impl;
 import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.model.request.OrderRequest;
 import com.andersen.carservice.service.OrderService;
-import com.andersen.carservice.util.UuidHelper;
+import com.andersen.carservice.util.UuidUtil;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,17 +22,17 @@ public class AssignRepairers extends NamedCommand {
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         List<UUID> repairersIds = new ArrayList<>();
-        for (int i = 2; i < arguments.size(); i++) {
-            if (UuidHelper.isNotParsable(arguments.get(i))) {
-                writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
+        for (int i = 1; i < arguments.size(); i++) {
+            if (UuidUtil.isNotParsable(arguments.get(i))) {
+                writer.println(UuidUtil.uuidIsNotParsable(arguments.get(i)));
                 return;
             }
-            repairersIds.add(UUID.fromString(arguments.get(i)));
+            if (i > 1) {
+                repairersIds.add(UUID.fromString(arguments.get(i)));
+            }
         }
         UUID orderId = UUID.fromString(arguments.get(1));
         try {
-            //      writer.println(orderService.assignRepairers(orderId, repairersIds));
-            // OrderRequest request = parser.parse(arguments);
             OrderRequest orderRequest = OrderRequest.builder()
                     .repairersIds(repairersIds)
                     .build();

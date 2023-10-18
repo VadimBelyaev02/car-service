@@ -36,9 +36,8 @@ public class HireRepairer extends NamedCommand {
                 .name(name)
                 .build();
 
-        RepairerResponse response = null;
         try {
-            response = repairerService.save(repairer);
+            RepairerResponse response = repairerService.save(repairer);
             writer.println("Repairer saved: " + response);
         } catch (NotFoundException | AlreadyExistsException e) {
             writer.println(e.getMessage());
