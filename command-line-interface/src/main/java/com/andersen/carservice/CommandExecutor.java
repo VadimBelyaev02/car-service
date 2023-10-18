@@ -2,8 +2,8 @@ package com.andersen.carservice;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.command.impl.*;
-import com.andersen.carservice.storage.OrderStorage;
-import com.andersen.carservice.storage.RepairerStorage;
+import com.andersen.carservice.service.OrderService;
+import com.andersen.carservice.service.impl.RepairerServiceImpl;
 import com.andersen.carservice.util.ArgumentParser;
 
 import java.io.BufferedReader;
@@ -19,13 +19,13 @@ public class CommandExecutor {
     private final BufferedReader reader;
     private final List<NamedCommand> commands;
 
-    public CommandExecutor(PrintWriter writer, BufferedReader reader, OrderStorage orderStorage, RepairerStorage repairerStorage) {
+    public CommandExecutor(PrintWriter writer, BufferedReader reader, OrderService orderService, RepairerServiceImpl repairerService) {
         this.writer = writer;
         this.reader = reader;
         this.commands = Stream.of(
-                new AssignRepairers("assign-repairers", orderStorage, repairerStorage),
+                new AssignRepairers("assign-repairers", orderService),
                 new CancelOrder("cancel-order", orderService),
-                new CompleteOrder("complete-order", orderStorage),
+                new CompleteOrder("complete-order", orderService),
                 new FireRepairer("fire-repairer", repairerService),
                 new HireRepairer("hire-repairer", repairerService),
                 new ListOrders("list-orders", orderService),

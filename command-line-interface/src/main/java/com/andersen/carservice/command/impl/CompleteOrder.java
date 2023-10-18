@@ -3,9 +3,10 @@ package com.andersen.carservice.command.impl;
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.request.OrderRequest;
+import com.andersen.carservice.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.util.UuidHelper;
-import com.andersen.carservice.util.constants.OrderUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -25,10 +26,15 @@ public class CompleteOrder extends NamedCommand {
         if (!UuidHelper.isParsable(arguments.get(1))) {
             writer.println();
         }
-        UUID id = UUID.fromString(arguments.get(1));
+        UUID orderId = UUID.fromString(arguments.get(1));
 
         try {
-            orderService.changeOrderStatus(id, OrderStatus.COMPLETED);
+            //   orderService.changeOrderStatus(id, OrderStatus.COMPLETED);
+            OrderRequest orderRequest = OrderRequest.builder()
+                    .status(OrderStatus.COMPLETED)
+                    .build();
+            OrderResponse response = orderService.update(orderId, orderRequest);
+            writer.println(response);
         } catch (NotFoundException e) {
             writer.println(e.getMessage());
         }

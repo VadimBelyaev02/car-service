@@ -5,7 +5,7 @@ public enum OrderStatus {
     ABANDONED,
     COMPLETED;
 
-    public boolean isValueOf(String value) {
+    public static boolean isValueOf(String value) {
         try {
             valueOf(value);
             return true;

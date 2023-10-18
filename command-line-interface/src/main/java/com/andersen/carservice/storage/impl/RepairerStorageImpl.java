@@ -8,18 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor()
 public class RepairerStorageImpl implements RepairerStorage {
 
     private final Map<UUID, Repairer> repairers = new HashMap<>();
-    private static RepairerStorageImpl instance;
-
-    public static RepairerStorageImpl getInstance() {
-        if (Objects.isNull(instance)) {
-            instance = new RepairerStorageImpl();
-        }
-        return instance;
-    }
 
     @Override
     public List<Repairer> findAll() {

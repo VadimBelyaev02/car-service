@@ -19,7 +19,7 @@ public class Order {
     private Instant completionDate;
     private OrderStatus status;
 
-    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<UUID> repairersIds;
 
     public void addRepairer(UUID repairerId) {

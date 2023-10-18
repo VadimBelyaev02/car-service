@@ -2,7 +2,7 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.exception.NotFoundException;
-import com.andersen.carservice.service.OrderServiceImpl;
+import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.util.UuidHelper;
 
 import java.io.PrintWriter;
@@ -13,9 +13,9 @@ import static com.andersen.carservice.util.constants.GeneralConstants.UUID_IS_NO
 
 public class CancelOrder extends NamedCommand {
 
-    private final OrderServiceImpl orderService;
+    private final OrderService orderService;
 
-    public CancelOrder(String name, OrderServiceImpl orderService) {
+    public CancelOrder(String name, OrderService orderService) {
         super(name);
         this.orderService = orderService;
     }
@@ -28,7 +28,8 @@ public class CancelOrder extends NamedCommand {
         UUID orderId = UUID.fromString(arguments.get(1));
 
         try {
-            orderService.deleteOrder(orderId);
+            orderService.deleteById(orderId);
+            writer.println("Order with id = " + orderId + " was deleted");
         } catch (NotFoundException e) {
             writer.println(e.getMessage());
         }

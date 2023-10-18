@@ -4,21 +4,25 @@ import com.andersen.carservice.entity.Order;
 import com.andersen.carservice.entity.enums.OrderStatus;
 import com.andersen.carservice.exception.AlreadyExistsException;
 import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.request.OrderRequest;
+import com.andersen.carservice.response.OrderResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
 
-    void assignRepairers(UUID orderId, List<UUID> repairersIds) throws NotFoundException;
+  //  OrderResponse assignRepairers(UUID orderId, List<UUID> repairersIds) throws NotFoundException;
 
-    void deleteOrder(UUID orderId) throws NotFoundException;
+    void deleteById(UUID orderId) throws NotFoundException;
 
-    Order getById(UUID orderId) throws NotFoundException;
+    OrderResponse getById(UUID orderId) throws NotFoundException;
 
-    List<Order> getAll();
+    List<OrderResponse> getAll();
 
-    void save(Order order);
+    OrderResponse save(OrderRequest order);
 
-    void changeOrderStatus(UUID orderId, OrderStatus status) throws NotFoundException;
+    OrderResponse update(UUID orderId, OrderRequest request) throws NotFoundException;
+
+   // OrderResponse changeOrderStatus(UUID orderId, OrderStatus status) throws NotFoundException;
 }

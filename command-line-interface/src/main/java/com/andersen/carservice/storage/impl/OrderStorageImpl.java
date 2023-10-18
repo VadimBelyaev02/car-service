@@ -8,18 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class OrderStorageImpl implements OrderStorage {
 
     private final Map<UUID, Order> orders = new HashMap<>();
-    private static OrderStorageImpl instance;
-
-    public static OrderStorageImpl getInstance() {
-        if (Objects.isNull(instance)) {
-            instance = new OrderStorageImpl();
-        }
-        return instance;
-    }
 
     @Override
     public List<Order> findAll() {

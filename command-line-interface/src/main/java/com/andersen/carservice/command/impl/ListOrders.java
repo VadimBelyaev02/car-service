@@ -2,6 +2,7 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.entity.Order;
+import com.andersen.carservice.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
 
 import java.io.PrintWriter;
@@ -19,14 +20,14 @@ public class ListOrders extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        Comparator<Order> comparator = Comparator
-                .comparing(Order::getId)
-                .thenComparing(Order::getPrice)
-                .thenComparing(Order::getOpeningDate)
-                .thenComparing(Order::getCompletionDate)
-                .thenComparing(Order::getStatus);
+        Comparator<OrderResponse> comparator = Comparator
+                .comparing(OrderResponse::getId)
+                .thenComparing(OrderResponse::getPrice)
+                .thenComparing(OrderResponse::getOpeningDate)
+                .thenComparing(OrderResponse::getCompletionDate)
+                .thenComparing(OrderResponse::getStatus);
 
-        List<Order> orders = orderService.getAll().stream()
+        List<OrderResponse> orders = orderService.getAll().stream()
                 .sorted(comparator)
                 .toList();
 

@@ -2,9 +2,9 @@ package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
 import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.request.OrderRequest;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.util.UuidHelper;
-import com.andersen.carservice.util.constants.OrderUtil;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -24,17 +24,22 @@ public class AssignRepairers extends NamedCommand {
     protected void runCommand(List<String> arguments, PrintWriter writer) {
         List<UUID> repairersIds = new ArrayList<>();
         for (int i = 1; i < arguments.size(); i++) {
-                if (!UuidHelper.isParsable(arguments.get(i))) {
-                    writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
-                    return;
-                }
-                repairersIds.add(UUID.fromString(arguments.get(i)));
+            if (!UuidHelper.isParsable(arguments.get(i))) {
+                writer.println("Expected argument of type: UUID, got: " + arguments.get(i));
+                return;
             }
+            repairersIds.add(UUID.fromString(arguments.get(i)));
+        }
         UUID orderId = UUID.fromString(arguments.get(1));
         try {
-            orderService.assignRepairers(orderId, repairersIds);
+            //      writer.println(orderService.assignRepairers(orderId, repairersIds));
+            // OrderRequest request = parser.parse(arguments);
+            OrderRequest orderRequest = OrderRequest.builder()
+                    .repairersIds(repairersIds)
+                    .build();
+            orderService.update(orderId, orderRequest);
         } catch (NotFoundException e) {
-            writer.println(OrderUtil.notFoundById(orderId));
+            writer.println(e.getMessage());
         }
     }
 

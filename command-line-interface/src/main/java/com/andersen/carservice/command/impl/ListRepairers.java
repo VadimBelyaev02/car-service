@@ -1,8 +1,8 @@
 package com.andersen.carservice.command.impl;
 
 import com.andersen.carservice.command.NamedCommand;
-import com.andersen.carservice.entity.Repairer;
-import com.andersen.carservice.service.RepairerService;
+import com.andersen.carservice.response.RepairerResponse;
+import com.andersen.carservice.service.impl.RepairerServiceImpl;
 
 import java.io.PrintWriter;
 import java.util.Comparator;
@@ -10,25 +10,25 @@ import java.util.List;
 
 public class ListRepairers extends NamedCommand {
 
-    private final RepairerService repairerService;
+    private final RepairerServiceImpl repairerService;
 
-    public ListRepairers(String name, RepairerService repairerService) {
+    public ListRepairers(String name, RepairerServiceImpl repairerService) {
         super(name);
         this.repairerService = repairerService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        Comparator<Repairer> comparator = Comparator
-                .comparing(Repairer::getId)
-                .thenComparing(Repairer::getName)
-                .thenComparing(Repairer::getStatus);
+        Comparator<RepairerResponse> comparator = Comparator
+                .comparing(RepairerResponse::getId)
+                .thenComparing(RepairerResponse::getName)
+                .thenComparing(RepairerResponse::getStatus);
 
-        List<Repairer> repairers = repairerService.getAll().stream()
+        List<RepairerResponse> repairers = repairerService.getAll().stream()
                 .sorted(comparator)
                 .toList();
         for (int i = 0; i < repairers.size(); i++) {
-            System.out.println((i + 1) + ") " + repairers.get(i));
+            writer.println((i + 1) + ") " + repairers.get(i));
         }
     }
 
