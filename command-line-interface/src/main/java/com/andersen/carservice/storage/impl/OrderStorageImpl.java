@@ -36,8 +36,4 @@ public class OrderStorageImpl implements OrderStorage {
         return Optional.ofNullable(orders.get(id));
     }
 
-    @Override
-    public boolean existsById(UUID orderId) {
-        return findById(orderId).isPresent();
-    }
 }

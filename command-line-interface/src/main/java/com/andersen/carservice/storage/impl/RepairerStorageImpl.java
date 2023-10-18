@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-@NoArgsConstructor()
+@NoArgsConstructor
 public class RepairerStorageImpl implements RepairerStorage {
 
     private final Map<UUID, Repairer> repairers = new HashMap<>();
@@ -36,11 +36,6 @@ public class RepairerStorageImpl implements RepairerStorage {
         return Optional.ofNullable(repairers.get(id));
     }
 
-
-    @Override
-    public boolean existsById(UUID id) {
-        return findById(id).isPresent();
-    }
 
     @Override
     public boolean existsByEmail(String email) {

@@ -41,6 +41,5 @@ public class FireRepairer extends NamedCommand {
         writer.println("The first and the only one argument is the repairer's id. ");
         writer.println("Format: " + name + " <repairer-id>");
         writer.println("Example: " + name + " c7365c9e-3cf5-490f-9c85-38e936f758e6");
-
     }
 }
