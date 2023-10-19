@@ -4,6 +4,7 @@ import com.andersen.carservice.exception.NotFoundException;
 import com.andersen.carservice.model.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
 import com.andersen.carservice.service.impl.RepairerServiceImpl;
+import com.andersen.carservice.util.UuidUtil;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,17 +14,19 @@ import java.util.UUID;
 public class ViewOrderInfo extends NamedCommand {
 
     private final OrderService orderService;
-    private final RepairerServiceImpl repairerService;
 
-    public ViewOrderInfo(String name, OrderService orderService, RepairerServiceImpl repairerService) {
+    public ViewOrderInfo(String name, OrderService orderService) {
         super(name);
         this.orderService = orderService;
-        this.repairerService = repairerService;
     }
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        UUID orderId = UUID.fromString(arguments.get(1));
+        String firstParameter = arguments.get(1);
+        if (UuidUtil.isNotParsable(firstParameter)) {
+            writer.println(UuidUtil.uuidIsNotParsable(firstParameter));
+        }
+        UUID orderId = UUID.fromString(firstParameter);
         try {
             OrderResponse order = orderService.getById(orderId);
             int i = 1;

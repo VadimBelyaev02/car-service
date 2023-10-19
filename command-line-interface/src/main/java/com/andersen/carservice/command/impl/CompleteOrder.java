@@ -1,7 +1,7 @@
 package com.andersen.carservice.command.impl;
 
-import com.andersen.carservice.model.entity.enums.OrderStatus;
 import com.andersen.carservice.exception.NotFoundException;
+import com.andersen.carservice.model.entity.enums.OrderStatus;
 import com.andersen.carservice.model.request.OrderRequest;
 import com.andersen.carservice.model.response.OrderResponse;
 import com.andersen.carservice.service.OrderService;
@@ -22,16 +22,18 @@ public class CompleteOrder extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (UuidUtil.isNotParsable(arguments.get(1))) {
-            writer.println();
+        String firstParameter = arguments.get(1);
+        if (UuidUtil.isNotParsable(firstParameter)) {
+            writer.println(UuidUtil.uuidIsNotParsable(firstParameter));
+            return;
         }
-        UUID orderId = UUID.fromString(arguments.get(1));
+        UUID orderId = UUID.fromString(firstParameter);
 
         try {
-            //   orderService.changeOrderStatus(id, OrderStatus.COMPLETED);
             OrderRequest orderRequest = OrderRequest.builder()
                     .status(OrderStatus.COMPLETED)
                     .build();
+
             OrderResponse response = orderService.update(orderId, orderRequest);
             writer.println(response);
         } catch (NotFoundException e) {

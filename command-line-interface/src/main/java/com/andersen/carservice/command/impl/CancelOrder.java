@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
-import static com.andersen.carservice.util.constants.GeneralConstants.UUID_IS_NOT_PARSABLE;
-
 public class CancelOrder extends NamedCommand {
 
     private final OrderService orderService;
@@ -21,10 +19,11 @@ public class CancelOrder extends NamedCommand {
 
     @Override
     protected void runCommand(List<String> arguments, PrintWriter writer) {
-        if (UuidUtil.isNotParsable(arguments.get(1))) {
-            writer.println(UUID_IS_NOT_PARSABLE);
+        String firstParameter = arguments.get(1);
+        if (UuidUtil.isNotParsable(firstParameter)) {
+            writer.println(UuidUtil.uuidIsNotParsable(firstParameter));
         }
-        UUID orderId = UUID.fromString(arguments.get(1));
+        UUID orderId = UUID.fromString(firstParameter);
 
         try {
             orderService.deleteById(orderId);

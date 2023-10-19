@@ -31,11 +31,12 @@ public class CommandExecutor {
                 new ListOrders("list-orders", orderService),
                 new ListRepairers("list-repairers", repairerService),
                 new OpenOrder("open-order", orderService),
-                new ViewOrderInfo("view-order-info", orderService, repairerService)
+                new ViewOrderInfo("view-order-info", orderService)
         ).toList();
     }
 
     public void start() {
+
         while (true) {
             try {
                 writer.print("\n> ");
@@ -46,18 +47,10 @@ public class CommandExecutor {
                     writer.println("Bye!");
                     return;
                 }
+                if (Objects.equals(userInput, "help")) {
+                    commands.forEach(command -> writer.println(command.getName() ));
+                }
                 List<String> arguments = ArgumentParser.parse(userInput);
-//                boolean isInvalid = true;
-//                for (NamedCommand command : commands) {
-//                    if (Objects.equals(command.getName(), arguments.get(0))) {
-//                        isInvalid = false;
-//                        command.execute(arguments, writer);
-//                        break;
-//                    }
-//                }
-//                if (isInvalid) {
-//                    writer.println("Invalid command");
-//                }
                 commands.forEach(a -> a.execute(arguments, writer));
             } catch (IOException e) {
                 writer.println(e.getMessage() + "\n");
