@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse save(OrderRequest orderRequest) throws NotFoundException {
         Order order = orderMapper.toEntity(orderRequest);
         order.setId(UuidUtil.generate());
-
+        // the next several lines of code are for testing commands in 'script.txt'
         if (i == 0) {
             order.setId(UUID.fromString("b5d71db4-8082-4658-b76e-139bf3c2dadd"));
         }
@@ -65,6 +65,8 @@ public class OrderServiceImpl implements OrderService {
             order.setId(UUID.fromString("20c55039-1ad8-4c07-a144-a593cfa84594"));
         }
         i++;
+
+
         order.setStatus(OrderStatus.ACTIVE);
         order.setOpeningDate(Instant.now());
 

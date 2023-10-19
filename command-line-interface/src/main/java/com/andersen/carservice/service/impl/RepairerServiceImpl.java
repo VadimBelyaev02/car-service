@@ -45,6 +45,7 @@ public class RepairerServiceImpl implements RepairerService {
         Repairer repairer = repairerMapper.toEntity(repairerRequest);
         repairer.setId(UuidUtil.generate());
 
+        // the next several lines of code are for testing commands in 'script.txt'
         if (i == 0) {
             repairer.setId(UUID.fromString("f0336cd8-6ef8-4a9c-8e84-997eaa7d7822"));
         }
@@ -55,6 +56,8 @@ public class RepairerServiceImpl implements RepairerService {
             repairer.setId(UUID.fromString("22d6c085-2754-41c1-a5cc-5f75169d0d38"));
         }
         i++;
+
+
         if (repairerStorage.existsByEmail(repairer.getEmail())) {
             throw new AlreadyExistsException(RepairerUtil.alreadyExistsByEmail(repairer.getEmail()));
         }
